@@ -1,51 +1,69 @@
 import { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import { View, TextInput, TouchableOpacity, Text } from "react-native";
 import estilos from "../estilos/estilosApp";
 
 export default function Filtrado({ productos, filtrar }) {
-  const [buscado, setBuscado] = useState("");
+  const mostrarTodos = () => filtrar(productos);
 
-  const mostrarTodos = () => {
-    filtrar(productos);
-  }
+  const filtroConInput = (texto) => {
+    const producto = texto.charAt(0).toUpperCase() + texto.slice(1);
+    filtrar(
+      texto
+        ? productos.filter(
+            (p) => p.desc.includes(producto) || p.name.includes(producto)
+          )
+        : productos
+    );
+  };
 
   return (
-    <View style={estilos.contenedor}>
-      <TextInput 
+    <View style={[estilos.contenedor, {marginBottom: 20}]}>
+      <TextInput
         style={estilos.buscador}
         placeholder="Buscar..."
-        placeholderTextColor={'#7c7c7cff'}
-        onChangeText={(texto) => {
-            setBuscado(texto);
-            const producto = texto.charAt(0).toUpperCase() + texto.slice(1);
-            filtrar(texto ? productos.filter((p) => p.name.includes(producto)) : productos);
-        }}
+        placeholderTextColor={"#7c7c7cff"}
+        onChangeText={(texto) => filtroConInput(texto)}
       />
-      <Button
-        title="Café"
-        onPress={() =>
-          filtrar(productos.filter((p) => p.category === "Café"))
-        }
-      />
-      <Button
-        title="Té"
-        onPress={() =>
-          filtrar(productos.filter((p) => p.category === "Té"))
-        }
-      />
-      <Button
-        title="Pastelería"
+
+      <TouchableOpacity
+        style={estilos.botonFiltro}
+        onPress={() => filtrar(productos.filter((p) => p.category === "Café"))}
+      >
+        <Text style={[estilos.texto, estilos.textoBotonFiltro]}>Café</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={estilos.botonFiltro}
+        onPress={() => filtrar(productos.filter((p) => p.category === "Té"))}
+      >
+        <Text style={[estilos.texto, estilos.textoBotonFiltro]}>Té</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={estilos.botonFiltro}
         onPress={() =>
           filtrar(productos.filter((p) => p.category === "Pastelería"))
         }
-      />
-      <Button
-        title="Sándwiches"
+      >
+        <Text style={[estilos.texto, estilos.textoBotonFiltro]}>
+          Pastelería
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={estilos.botonFiltro}
         onPress={() =>
           filtrar(productos.filter((p) => p.category === "Sándwiches"))
         }
-      />
-      <Button title="Mostrar todo" onPress={mostrarTodos} />
+      >
+        <Text style={[estilos.texto, estilos.textoBotonFiltro]}>
+          Sándwiches
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={estilos.botonFiltro} onPress={mostrarTodos}>
+        <Text style={[estilos.texto, estilos.textoBotonFiltro]}>Todo</Text>
+      </TouchableOpacity>
     </View>
   );
 }

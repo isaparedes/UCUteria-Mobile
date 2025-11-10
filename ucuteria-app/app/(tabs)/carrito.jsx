@@ -1,14 +1,14 @@
 import { useContext, useState } from "react";
-import { Text, View, Button, TextInput } from "react-native";
-import { useRouter } from 'expo-router';
+import { Text, View, TextInput, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
 import estilos from "../estilos/estilosApp";
 import { CarritoContext } from "../contexts/CarritoContext";
 import Lista from "../components/Lista";
 
 export default function Carrito() {
-
-  const { carrito, vaciarCarrito, aplicarCupon, cupon, calcularSubtotal} = useContext(CarritoContext);
-  const [ posibleCupon, setPosibleCupon ] = useState("");
+  const { carrito, vaciarCarrito, aplicarCupon, cupon, calcularSubtotal } =
+    useContext(CarritoContext);
+  const [posibleCupon, setPosibleCupon] = useState("");
   const router = useRouter();
 
   const navegarAlEnvio = () => {
@@ -17,43 +17,45 @@ export default function Carrito() {
 
   return (
     <View style={estilos.contenedor}>
+      <Lista />
 
-      <Lista/>
+      <Text style={[estilos.texto, {marginBottom: 10}]}>Subtotal: ${calcularSubtotal()}</Text>
 
-      <Text>Subtotal: ${calcularSubtotal()}</Text>
       {cupon ? (
-        <Text>Descuento aplicado</Text>
+        <Text style={[estilos.texto]}>Descuento aplicado</Text>
       ) : (
-      <>
-        <TextInput
-          style={estilos.buscador}
-          placeholder="Ingresar cupon"
-          value={posibleCupon}
-          onChangeText={setPosibleCupon}
-          >
-        </TextInput>
-        <Button
-          title="Aplicar cupón"
-          onPress={() => {
-              aplicarCupon(posibleCupon)
+        <>
+          <TextInput
+            style={estilos.buscador}
+            placeholder="Ingresar cupón..."
+            value={posibleCupon}
+            onChangeText={setPosibleCupon}
+          />
+          <TouchableOpacity
+            style={estilos.botonCarrito}
+            onPress={() => {
+              aplicarCupon(posibleCupon);
               setPosibleCupon("");
-            }
-          }
-        />
-      </>
+            }}
+          >
+            <Text style={[estilos.texto, estilos.textoBotonCarrito]}>
+              Aplicar cupón
+            </Text>
+          </TouchableOpacity>
+        </>
       )}
-      <Button 
-        title="Vaciar"
-        onPress={vaciarCarrito}
-      />
-      {carrito.length > 0 && 
-        <Button
-          title="Ir a pagar"
-          onPress={navegarAlEnvio}
-        />
-      }
+
+      <TouchableOpacity style={estilos.botonCarrito} onPress={vaciarCarrito}>
+        <Text style={[estilos.texto, estilos.textoBotonCarrito]}>Vaciar</Text>
+      </TouchableOpacity>
+
+      {carrito.length > 0 && (
+        <TouchableOpacity style={estilos.botonCarrito} onPress={navegarAlEnvio}>
+          <Text style={[estilos.texto, estilos.textoBotonCarrito]}>
+            Ir a pagar
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
-
-

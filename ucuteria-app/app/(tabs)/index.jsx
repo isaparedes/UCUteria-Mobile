@@ -29,6 +29,7 @@ export default function Index() {
 
   return (
     <View style={estilos.contenedor}>
+      <Text style={estilos.titulo}>Menú</Text>
       <Filtrado
         productos={todos}
         filtrar={setProductos}
