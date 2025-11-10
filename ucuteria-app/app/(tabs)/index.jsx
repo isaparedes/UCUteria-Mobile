@@ -1,15 +1,43 @@
+import { useState } from "react";
 import { Text, View } from "react-native";
+import { useRouter } from 'expo-router';
+import estilos from "../estilos/estilosApp";
+import database from "../database/db.json";
+import Filtrado from "../components/Filtrado";
+import Menu from "../components/Menu";
 
 export default function Index() {
+
+  database.products.sort(function(a, b) {
+    return a.name.localeCompare(b.name);
+  });
+
+  const todos = database.products;
+  const [productos, setProductos] = useState(database.products);
+  const router = useRouter();
+
+
+  /* Por precio:
+  productos.sort(function(a, b) {
+      return a.price - b.price; 
+  });
+  */
+
+  const navegarAlProducto = (id) => {
+    router.navigate({ pathname: "/producto/[id]", params: { id } });
+  }
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+    <View style={estilos.contenedor}>
+      <Filtrado
+        productos={todos}
+        filtrar={setProductos}
+      />
+      <Menu 
+        navegar={navegarAlProducto}
+        productos={productos}  
+      />
     </View>
   );
 }
+
