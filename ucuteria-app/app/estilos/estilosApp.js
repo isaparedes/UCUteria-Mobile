@@ -207,4 +207,61 @@ export default StyleSheet.create({
     justifyContent: "center",
     marginLeft: 10,
   },
+
+
+  input: {
+    width: width * 0.8,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 12,
+    backgroundColor: "#fff",
+    fontSize: 16,
+    fontFamily: Platform.OS === "android" ? "monospace" : "Avenir",
+  },
+
+  radio: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 6,
+    width: width * 0.8,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    backgroundColor: "#fff",
+  },
+
+  checkbox: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
+    width: width * 0.8,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    backgroundColor: "#fff",
+  },
+
+  botonConfirmar: {
+    width: width * 0.7,
+    marginVertical: 12,
+    borderRadius: 8,
+    alignSelf: "center",
+    backgroundColor:  '#7814a2ff',
+    paddingVertical: 12,
+  },
+
+  textoBotonConfirmar: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    fontFamily: Platform.OS === "android" ? "monospace" : "Avenir",
+  },
 });
+

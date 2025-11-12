@@ -8,13 +8,14 @@ import { useContext } from "react";
 
 export default function Checkout() {
 
-    const { calcularSubtotal } = useContext(CarritoContext);
+    const { calcularSubtotal, vaciarCarrito } = useContext(CarritoContext);
 
 
     return (
         <View style={estilos.contenedor}>
             <Formulario
                 total={calcularSubtotal()*1.22}
+                vaciarCarrito={vaciarCarrito}
             />
         </View>
     )

@@ -1,11 +1,34 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from "react-native";
 
 export const CarritoContext = createContext();
 
 export const CarritoProvider = ({children}) => {
     const [carrito, setCarrito] = useState([]);
     const [cupon, setCupon] = useState(false);
+
+    useEffect(() => {
+        const cargarDatos = async () => {
+            try {
+                const carritoGuardado = await AsyncStorage.getItem("carrito");
+                const cuponGuardado = await AsyncStorage.getItem("cupon");
+                if (carritoGuardado) setCarrito(JSON.parse(carritoGuardado));
+                if (cuponGuardado) setCupon(JSON.parse(cuponGuardado));
+            } catch (error) {
+                console.log("Error al cargar storage", error);
+            }
+        };
+        cargarDatos();
+    }, []);
+
+    useEffect(() => {
+        AsyncStorage.setItem("carrito", JSON.stringify(carrito));
+    }, [carrito]);
+
+    useEffect(() => {
+        AsyncStorage.setItem("cupon", JSON.stringify(cupon));
+    }, [cupon]);
 
     const agregarProducto = (producto) => {
         setCarrito((prev) =>
@@ -35,12 +58,10 @@ export const CarritoProvider = ({children}) => {
         });
     };
 
-
     const verificarExistencia = (producto) => {
         const encontrado = carrito.find(i => i.name === producto.name);
         return encontrado ? encontrado.quantity : 0;
     };
-
 
     const vaciarCarrito = () => {
         setCarrito([]);
@@ -50,6 +71,12 @@ export const CarritoProvider = ({children}) => {
     const aplicarCupon = (posibleCupon) => {
         if (carrito.length > 0 && posibleCupon  === "DESC10") {
             setCupon(true);
+        }
+        else if (posibleCupon === "") {
+            Alert.alert("Campo vacío");
+        }
+        else {
+            Alert.alert("Cupón inválido");
         }
     }
 

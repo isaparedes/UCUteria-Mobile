@@ -17,7 +17,7 @@ export default function Filtrado({ productos, filtrar }) {
   };
 
   return (
-    <View style={[estilos.contenedor, {marginBottom: 20}]}>
+    <View style={estilos.contenedor}>
       <TextInput
         style={estilos.buscador}
         placeholder="Buscar..."
